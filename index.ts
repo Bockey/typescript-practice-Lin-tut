@@ -232,3 +232,117 @@ const guestUser = new Guest("Steph", "Curry", "steph@3.com");
 const adminUser = new Admin("Charles", "Barkley", "charlie@nba.com");
 console.log(adminUser, adminUser.fullName);
 console.log(guestUser, guestUser.fullName);
+
+//Access Modifiers in TypeScript
+
+//Encapsulation
+
+//Private vs Public
+
+//By default ts is public so if we don't say different everything is public
+
+
+class Plant {
+    public age: number; // we don't need public but just for demo
+    private roots: number; // only accessible inside class
+    name: string;
+
+    constructor(age: number, roots: number, name: string){
+        this.age = age;
+        this.roots = roots;
+        this.name = name;
+    }
+}
+
+class flower extends Plant{
+    constructor(data: {age: number, roots: number, name: string}){
+        super(data.age, data.roots, data.name);
+    }
+
+    // public get ourRoots(){
+    //     return this.roots;
+    // }
+}
+
+// Protected
+/* 
+It is accessible in class and child classes (like extends) 
+but not in implemented class
+*/
+
+// Static
+
+class Message1{
+    title: string;
+    message: string;
+    isSent: boolean;
+}
+
+class Messages{
+    static getValidMessages(messages: Message[]): Message[]{
+        return messages.filter((value)=> value.message.trim().length > 0);
+    }
+}
+Messages.getValidMessages([]);
+
+// Readonly
+// Prevents overriding the value
+
+class Message2 {
+    public readonly id: string;
+    title: string;
+    message: string;
+    isSent: boolean;
+
+    constructor(id: string, message: string){
+        this.id = id;
+    }
+}
+
+const message2 = new Message2("2", "Hey! How are you?");
+console.log(message2, message2.id);
+
+// message2.id = "3"; it's readonly so it can't be changed
+
+// Challenge 3: Encapsulation
+
+/* 
+1. Use the classes below.
+2. Add and appropriate readonly property to the User1 class.
+3. Be explicit with your public properties our User1 class.
+4. Add an appropriate protected property in User1 and access it
+with a private method in Admin.
+*/
+
+class User1{
+    public readonly id: number;
+    public  userName: string;
+    public  userEmail: string;
+    protected userPassword: string;
+    
+    // constructor(name: string, email: string, protected password: string){
+    //     this.userName = name;
+    //     this.userEmail = email;
+    //     this.userPassword =  password;
+    // }
+
+}
+
+class Admin1 extends User1{
+    public pass: string;
+
+    constructor(name: string, email: string){
+        super();
+        this.userName = name;
+        this.userEmail = email;
+        this.pass = `password is ${this.getPassword()}`;
+
+    }
+    private getPassword(): string{
+        return this.userPassword;
+    }
+}
+
+const admin12 = new Admin1("David", "david@gmail.com");
+
+

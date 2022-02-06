@@ -234,3 +234,81 @@ var guestUser = new Guest("Steph", "Curry", "steph@3.com");
 var adminUser = new Admin("Charles", "Barkley", "charlie@nba.com");
 console.log(adminUser, adminUser.fullName);
 console.log(guestUser, guestUser.fullName);
+//Access Modifiers in TypeScript
+//Encapsulation
+//Private vs Public
+//By default ts is public so if we don't say different everything is public
+var Plant = /** @class */ (function () {
+    function Plant(age, roots, name) {
+        this.age = age;
+        this.roots = roots;
+        this.name = name;
+    }
+    return Plant;
+}());
+var flower = /** @class */ (function (_super) {
+    __extends(flower, _super);
+    function flower(data) {
+        return _super.call(this, data.age, data.roots, data.name) || this;
+    }
+    return flower;
+}(Plant));
+// Protected
+/*
+It is accessible in class and child classes (like extends)
+but not in implemented class
+*/
+// Static
+var Message1 = /** @class */ (function () {
+    function Message1() {
+    }
+    return Message1;
+}());
+var Messages = /** @class */ (function () {
+    function Messages() {
+    }
+    Messages.getValidMessages = function (messages) {
+        return messages.filter(function (value) { return value.message.trim().length > 0; });
+    };
+    return Messages;
+}());
+Messages.getValidMessages([]);
+// Readonly
+// Prevents overriding the value
+var Message2 = /** @class */ (function () {
+    function Message2(id, message) {
+        this.id = id;
+    }
+    return Message2;
+}());
+var message2 = new Message2("2", "Hey! How are you?");
+console.log(message2, message2.id);
+// message2.id = "3"; it's readonly so it can't be changed
+// Challenge 3: Encapsulation
+/*
+1. Use the classes below.
+2. Add and appropriate readonly property to the User1 class.
+3. Be explicit with your public properties our User1 class.
+4. Add an appropriate protected property in User1 and access it
+with a private method in Admin.
+*/
+var User1 = /** @class */ (function () {
+    function User1() {
+    }
+    return User1;
+}());
+var Admin1 = /** @class */ (function (_super) {
+    __extends(Admin1, _super);
+    function Admin1(name, email) {
+        var _this = _super.call(this) || this;
+        _this.userName = name;
+        _this.userEmail = email;
+        _this.pass = "password is ".concat(_this.getPassword());
+        return _this;
+    }
+    Admin1.prototype.getPassword = function () {
+        return this.userPassword;
+    };
+    return Admin1;
+}(User1));
+var admin12 = new Admin1("David", "david@gmail.com");
